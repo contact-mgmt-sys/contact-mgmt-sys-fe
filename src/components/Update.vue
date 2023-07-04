@@ -1,19 +1,23 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from "./../stores/store.js";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
+const contact = store.readContact(route.params.id);
 
-const name = ref("");
-const address = ref("");
-const email = ref("");
-const mobile = ref("");
+const name = ref(contact.name);
+const address = ref(contact.address);
+const email = ref(contact.email);
+const mobile = ref(contact.mobile);
 
-function createContact() {
-    store.createContact(name.value, address.value, email.value, mobile.value);
-    console.log("Created:", name.value, address.value, email.value, mobile.value);
+function updateContact() {
+    store.updateContact(contact.id, name.value, address.value, email.value, mobile.value);
+    console.log("Updated:",
+        contact.name, contact.address, contact.email, contact.mobile, "->",
+        name.value, address.value, email.value, mobile.value);
     router.push({name: "index"});
 }
 
@@ -21,7 +25,7 @@ function createContact() {
 
 <template>
 <router-link to="/">Back</router-link>
-<h1>Create Contact</h1>
+<h1>Update Contact</h1>
 <!-- <form action="" method="post"> -->
     <div>
         <label for="name">Name</label><br>
@@ -41,6 +45,6 @@ function createContact() {
     </div>
     <br>
     <!-- <input type="submit" value="Submit"> -->
-    <button @click="createContact();">Submit</button>
+    <button @click="updateContact();">Submit</button>
 <!-- </form> -->
 </template>

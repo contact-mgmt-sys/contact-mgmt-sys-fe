@@ -41,16 +41,17 @@ search();
     </thead>
     <tbody>
         <tr v-for="contact, idx in contacts" v-bind:key="contact.id">
-            <td><router-link :to="'/' + contact.id">{{ idx + 1 }}</router-link></td>
-            <td><router-link :to="'/' + contact.id">{{ contact.name }}</router-link></td>
-            <td><router-link :to="'/' + contact.id">{{ contact.address }}</router-link></td>
-            <td><router-link :to="'/' + contact.id">{{ contact.email }}</router-link></td>
-            <td><router-link :to="'/' + contact.id">+{{ contact.mobile }}</router-link></td>
+            <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ idx + 1 }}</router-link></td>
+            <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ contact.name }}</router-link></td>
+            <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ contact.address }}</router-link></td>
+            <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ contact.email }}</router-link></td>
+            <td><router-link :to="{name: 'read', params: {id: contact.id}}">+{{ contact.mobile }}</router-link></td>
             <td>
-                <button onClick="window.location.href='';">Update</button>
-                <form class="hidden" action="" method="post">
-                    <input type="submit" value="Delete">
-                </form>
+                <button @click="this.$router.push({name: 'update', params: {id: contact.id}});">Update</button>
+                <!-- <form class="hidden" action="" method="post"> -->
+                    <!-- <input type="submit" value="Delete"> -->
+                <button @click="this.$router.push({name: 'delete', params: {id: contact.id}, query: {delete: false}});">Delete</button>
+                <!-- </form> -->
             </td>
         </tr>
     </tbody>
@@ -58,7 +59,7 @@ search();
         <tr>
             <th colspan="6">
                 <!-- <button onClick="window.location.href='';">Create</button> -->
-                <button @click="this.$router.push('/create');">Create</button>
+                <button @click="this.$router.push({name: 'create'});">Create</button>
             </th>
         </tr>
     </tfoot>

@@ -8,11 +8,14 @@ import * as VueRouter from 'vue-router';
 import Index from './components/Index.vue';
 import Create from './components/Create.vue';
 import Read from './components/Read.vue';
+import Update from './components/Update.vue';
 
 const routes = [
-    {path: "/", component: Index},
-    {path: "/create", component: Create},
-    {path: "/:id", component: Read},
+    {path: "/", component: Index, name: "index"},
+    {path: "/create", component: Create, name: "create"},
+    {path: "/:id", component: Read, name: "read"},
+    {path: "/:id/update", component: Update, name: "update"},
+    {path: "/:id", component: Read, name: "delete"},
 ];
 
 const router = VueRouter.createRouter({

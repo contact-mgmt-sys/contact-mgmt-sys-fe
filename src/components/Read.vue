@@ -8,6 +8,14 @@ const router = useRouter();
 const route = useRoute();
 
 const contact = store.readContact(route.params.id);
+
+function deleteContact() {
+    store.deleteContact(contact.id);
+    console.log("Deleted:", contact.name, contact.address, contact.email, contact.mobile);
+    router.push({name: "index"});
+}
+
+if(route.query.delete) deleteContact();
 </script>
 
 <template>
@@ -30,7 +38,7 @@ const contact = store.readContact(route.params.id);
     <input type="text" name="mobile" id="mobile" :value="'+' + contact.mobile" disabled>
 </div>
 <br>
-<button onClick="window.location.href='';">Update</button>
+<button @click="this.$router.push({name: 'update', params: {id: contact.id}});">Update</button>
 <!-- <form class="hidden" action="{% url 'contacts:delete' contact.id %}" method="post"> -->
     <input type="submit" value="Delete">
 <!-- </form> -->
