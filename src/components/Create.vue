@@ -11,10 +11,25 @@ const address = ref("");
 const email = ref("");
 const mobile = ref("");
 
-function createContact() {
-    store.createContact(name.value, address.value, email.value, mobile.value);
-    console.log("Created:", name.value, address.value, email.value, mobile.value);
-    router.push({name: "index"});
+let submitted = false;
+
+function create() {
+    submitted = true;
+    const con = {
+        name: name.value,
+        address: address.value,
+        email: email.value,
+        mobile: mobile.value,
+    };
+    store.axi.post(store.api.contacts_list, con)
+        .then((response) => {
+            console.log("[create]", "succeeded", "created", con);
+            router.push({name: "index"});
+        })
+        .catch((error) => {
+            console.log("[create]", "failed", error);
+            submitted = false;
+        });
 }
 
 </script>
@@ -41,6 +56,6 @@ function createContact() {
     </div>
     <br>
     <!-- <input type="submit" value="Submit"> -->
-    <button @click="createContact();">Submit</button>
+    <button @click="create();" :disabled="submitted">Submit</button>
 <!-- </form> -->
 </template>

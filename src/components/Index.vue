@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onActivated } from 'vue';
 import { useStore } from "./../stores/store.js";
 
 const store = useStore();
@@ -8,12 +8,25 @@ const query = ref("");
 const contacts = ref([]);
 
 function search() {
-    contacts.value = store.searchContact(query.value);
-    if(query.value) console.log("Searched:", query.value, "Results:",
-        contacts.value.length);
 }
 
-search();
+async function remove(id) {
+    await store.axi.delete(store.api.contacts_view(id));
+    list();
+}
+
+function list() {
+    store.axi.get(store.api.contacts_list)
+        .then((response) => {
+            contacts.value = response.data.results;
+            console.log("[list]", "succeeded", "got", contacts.value.length);
+        })
+        .catch((error) => {
+            console.log("[list]", "failed", error);
+        });
+}
+
+list();
 </script>
 
 <template>
@@ -45,12 +58,12 @@ search();
             <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ contact.name }}</router-link></td>
             <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ contact.address }}</router-link></td>
             <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ contact.email }}</router-link></td>
-            <td><router-link :to="{name: 'read', params: {id: contact.id}}">+{{ contact.mobile }}</router-link></td>
+            <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ `${contact.mobile ? '+' : ''}${contact.mobile}` }}</router-link></td>
             <td>
                 <button @click="this.$router.push({name: 'update', params: {id: contact.id}});">Update</button>
                 <!-- <form class="hidden" action="" method="post"> -->
                     <!-- <input type="submit" value="Delete"> -->
-                <button @click="this.$router.push({name: 'delete', params: {id: contact.id}, query: {delete: false}});">Delete</button>
+                <button @click="remove(contact.id);">Delete</button>
                 <!-- </form> -->
             </td>
         </tr>
