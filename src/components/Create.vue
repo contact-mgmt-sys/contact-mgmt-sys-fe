@@ -22,12 +22,10 @@ function create() {
         mobile: mobile.value,
     };
     store.axi.post(store.api.contacts_list, con)
-        .then((response) => {
-            console.log("[create]", "succeeded", "created", con);
+        .then((response) => {;
             router.push({name: "index"});
         })
         .catch((error) => {
-            console.log("[create]", "failed", error);
             submitted = false;
         });
 }

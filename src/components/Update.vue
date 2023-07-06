@@ -18,16 +18,13 @@ let submitted = false;
 function view(id) {
     store.axi.get(store.api.contacts_view(id))
         .then((response) => {
-            console.log(response);
             contact.value = response.data;
             name.value = contact.value.name;
             address.value = contact.value.address;
             email.value = contact.value.email;
             mobile.value = contact.value.mobile;
-            console.log("[view]", "succeeded", "got", contact.value);
         })
         .catch((error) => {
-            console.log("[view]", "failed", error);
         });
 }
 
@@ -41,11 +38,9 @@ function update(id) {
     };
     store.axi.put(store.api.contacts_view(id), con)
         .then((response) => {
-            console.log("[update]", "succeeded", "updated", con);
             router.push({name: "index"});
         })
         .catch((error) => {
-            console.log("[update]", "failed", error);
             submitted = false;
         });
 }

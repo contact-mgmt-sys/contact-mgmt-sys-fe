@@ -12,12 +12,9 @@ const contact = ref();
 function view(id) {
     store.axi.get(store.api.contacts_view(id))
         .then((response) => {
-            console.log(response);
             contact.value = response.data;
-            console.log("[view]", "succeeded", "got", contact.value);
         })
         .catch((error) => {
-            console.log("[view]", "failed", error);
         });
 }
 

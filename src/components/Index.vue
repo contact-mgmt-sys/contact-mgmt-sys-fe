@@ -6,8 +6,11 @@ const store = useStore();
 
 const query = ref("");
 const contacts = ref([]);
+const isearch = ref();
 
-function search() {
+function search(str) {
+    query.value = str ?? "";
+    list({search: query.value});
 }
 
 async function remove(id) {
@@ -15,14 +18,13 @@ async function remove(id) {
     list();
 }
 
-function list() {
-    store.axi.get(store.api.contacts_list)
+function list(params) {
+    params = params ?? {};
+    store.axi.get(store.api.contacts_list, {params: params})
         .then((response) => {
             contacts.value = response.data.results;
-            console.log("[list]", "succeeded", "got", contacts.value.length);
         })
         .catch((error) => {
-            console.log("[list]", "failed", error);
         });
 }
 
@@ -39,8 +41,8 @@ list();
         </tr>
         <tr>
             <th colspan="6">
-                <input type="text" name="query" v-model="query" @keyup.enter="search();">
-                <button @click="search();">Search</button>
+                <input type="text" name="query" ref="isearch" @keyup.enter="search(isearch.value);">
+                <button @click="search(isearch.value);">Search</button>
             </th>
         </tr>
         <tr>
