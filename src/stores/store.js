@@ -12,8 +12,27 @@ export const useStore = defineStore('counter', () => {
     const _axi = axios.create({});
     const axi = computed(() => _axi);
 
+    function ask(title, content, callback) {
+        $.modal({
+            title: title,
+            class: 'mini basic',
+            content: content,
+            actions: [{
+                text: 'Proceed',
+                class: 'green',
+                click: () => callback(true)
+            }, {
+                text: 'Cancel',
+                class: 'red',
+                click: () => callback(false)
+            }],
+            closable: false
+        }).modal('show');
+    }
+
     return {
         api,
-        axi
+        axi,
+        ask
     };
 });

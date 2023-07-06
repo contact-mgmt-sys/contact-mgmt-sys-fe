@@ -33,9 +33,45 @@ function create() {
 </script>
 
 <template>
-<router-link to="/">Back</router-link>
+<router-link to="/" class="ui label">Back</router-link>
+<h2 class="ui header">
+    <i class="plus icon"></i>
+    <div class="content">
+        Create Contact
+    </div>
+</h2>
+
+<div class="ui stacked very padded segment">
+    <div class="ui form">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" placeholder="" v-model="name">
+        </div>
+        <div class="field">
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" placeholder="" v-model="address">
+        </div>
+        <div class="two fields">
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="" v-model="email">
+            </div>
+            <div class="field">
+                <label for="mobile">Mobile</label>
+                <div class="ui labeled input">
+                    <div class="ui label">
+                        +
+                    </div>
+                    <input type="text" name="mobile" id="mobile" placeholder="" v-model="mobile">
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="fluid ui button large" @click="create();" :disabled="submitted || !name">Submit</button>
+</div>
+
+<!-- <router-link to="/">Back</router-link>
 <h1>Create Contact</h1>
-<!-- <form action="" method="post"> -->
     <div>
         <label for="name">Name</label><br>
         <input type="text" name="name" id="name" v-model="name">
@@ -53,7 +89,5 @@ function create() {
         +<input type="text" name="mobile" id="mobile" v-model="mobile">
     </div>
     <br>
-    <!-- <input type="submit" value="Submit"> -->
-    <button @click="create();" :disabled="submitted">Submit</button>
-<!-- </form> -->
+    <button @click="create();" :disabled="submitted">Submit</button> -->
 </template>

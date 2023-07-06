@@ -3,7 +3,9 @@ import { ref } from 'vue';
 </script>
 
 <template>
-    <router-view />
+    <div class="ui raised padded text container segment">
+        <router-view />
+    </div>
 </template>
 
 <style scoped>

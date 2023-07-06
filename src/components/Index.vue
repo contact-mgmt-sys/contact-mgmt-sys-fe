@@ -13,6 +13,12 @@ function search(str) {
     list({search: query.value});
 }
 
+function askRemove(id) {
+    store.ask("Contact Deletion", "Are you sure you want to delete this contact?", (val) => {
+        if(val) remove(id);
+    });
+}
+
 async function remove(id) {
     await store.axi.delete(store.api.contacts_view(id));
     list();
@@ -32,7 +38,41 @@ list();
 </script>
 
 <template>
-<table>
+<h2 class="ui center aligned icon header">
+    <i class="circular users icon"></i>
+    Contacts
+</h2>
+<div class="ui icon fluid input">
+    <input type="text" placeholder="Search..." ref="isearch" @keyup.enter="search(isearch.value);">
+    <i class="inverted circular search link icon"></i>
+</div>
+<div class="ui stacked very padded segment" v-if="contacts.length > 0">
+    <div class="ui ordered relaxed large selection divided list">
+        <div class="item" v-for="contact, idx in contacts" :key="contact.id">
+            <div class="ui labels right floated">
+                <router-link :to="{name: 'read', params: {id: contact.id}}" class="ui label">View</router-link>
+                <router-link :to="{name: 'update', params: {id: contact.id}}" class="ui label">Update</router-link>
+                <a class="ui label" href="javascript:void(0)" @click="askRemove(contact.id);">
+                    Delete
+                </a>
+            </div>
+            <div class="content">
+                <div class="header">{{ contact.name }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui center aligned basic message" v-else>
+    <div class="content">
+        <div class="header">
+            Nothing to display!
+        </div>
+        <p>No contacts were found.</p>
+    </div>
+</div>
+<router-link :to="{name: 'create'}" class="ui bottom attached centered huge label">Create</router-link>
+
+<!-- <table>
     <thead>
         <tr>
             <th colspan="6">
@@ -63,20 +103,16 @@ list();
             <td><router-link :to="{name: 'read', params: {id: contact.id}}">{{ `${contact.mobile ? '+' : ''}${contact.mobile}` }}</router-link></td>
             <td>
                 <button @click="this.$router.push({name: 'update', params: {id: contact.id}});">Update</button>
-                <!-- <form class="hidden" action="" method="post"> -->
-                    <!-- <input type="submit" value="Delete"> -->
                 <button @click="remove(contact.id);">Delete</button>
-                <!-- </form> -->
             </td>
         </tr>
     </tbody>
     <tfoot>
         <tr>
             <th colspan="6">
-                <!-- <button onClick="window.location.href='';">Create</button> -->
                 <button @click="this.$router.push({name: 'create'});">Create</button>
             </th>
         </tr>
     </tfoot>
-</table>
+</table> -->
 </template>
