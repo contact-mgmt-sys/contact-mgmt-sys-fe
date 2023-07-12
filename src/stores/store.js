@@ -5,9 +5,9 @@ import axios from "axios";
 
 export const useStore = defineStore('counter', () => {
     const api = {};
-    api.base = "http://127.0.0.1:8000/";
-    api.contacts_list = `${api.base}contacts/`;
-    api.contacts_view = (id) => `${api.contacts_list}${id}/`;
+    api.base = import.meta.env.VITE_API_BASE;
+    api.contacts_list = import.meta.env.VITE_API_CONTACTS_LIST;
+    api.contacts_view = (id) => import.meta.env.VITE_API_CONTACTS_VIEW.replace(":id", id);
 
     const _axi = axios.create({});
     const axi = computed(() => _axi);
