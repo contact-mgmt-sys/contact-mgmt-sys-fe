@@ -19,12 +19,6 @@ services:
       VITE_API_CONTACTS_VIEW: ${VITE_API_CONTACTS_VIEW}
     ports:
       - 8080:8080
-    networks:
-      - contact-mgmt-sys
-
-networks:
-  contact-mgmt-sys:
-    external: true
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
