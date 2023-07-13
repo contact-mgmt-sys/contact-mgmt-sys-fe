@@ -23,9 +23,9 @@ npm install
 ```
 3. Create an `.env` file in the root directory and add the following environment variables. The following values are examples and should be changed to match your environment.
 ```env
-VITE_API_BASE="http://127.0.0.1:8000/"
-VITE_API_CONTACTS_LIST="http://127.0.0.1:8000/contacts/"
-VITE_API_CONTACTS_VIEW="http://127.0.0.1:8000/contacts/:id/"
+VITE_API_BASE=http://127.0.0.1:8000/
+VITE_API_CONTACTS_LIST=http://127.0.0.1:8000/contacts/
+VITE_API_CONTACTS_VIEW=http://127.0.0.1:8000/contacts/:id/
 ```
 
 ## Usage
@@ -43,15 +43,11 @@ npm run preview
 ```
 
 ## Docker
-1. Create a network.
-```
-docker network create contact-mgmt-sys
-```
-2. Build the image.
+1. Build the image.
 ```
 docker build -t contact-mgmt-sys-fe .
 ```
-3. Run the container.
+2. Run the container.
 ```
-docker run -p 8080:8080 contact-mgmt-sys-fe --network contact-mgmt-sys
+docker run -p 8080:8080 --name contact-mgmt-sys-fe --env-file .env --rm contact-mgmt-sys-fe
 ```
