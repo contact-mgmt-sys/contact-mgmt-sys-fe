@@ -53,5 +53,5 @@ docker build -t contact-mgmt-sys-fe .
 ```
 3. Run the container.
 ```
-docker run -p 8080:8080 contact-mgmt-sys-fe
+docker run -p 8080:8080 contact-mgmt-sys-fe --network contact-mgmt-sys
 ```
