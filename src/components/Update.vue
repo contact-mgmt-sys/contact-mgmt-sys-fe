@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from "./../stores/store.js";
 import { useRouter, useRoute } from "vue-router";
 
@@ -8,10 +8,10 @@ const router = useRouter();
 const route = useRoute();
 const contact = ref();
 
-const name = ref(contact.name);
-const address = ref(contact.address);
-const email = ref(contact.email);
-const mobile = ref(contact.mobile);
+const name = ref("");
+const address = ref("");
+const email = ref("");
+const mobile = ref("");
 
 let submitted = false;
 
@@ -46,10 +46,28 @@ function update(id) {
 }
 
 view(route.params.id);
+
+onMounted(() => {
+    $('.ui.form')
+    .form({
+            fields: {
+                name: ['empty', 'maxLength[250]'],
+                address: ['empty', 'maxLength[500]'],
+                email: ['email', 'maxLength[250]'],
+                mobile: ['integer', 'exactLength[12]'],
+            },
+            inline: false,
+            onSuccess: function(submitEvent, fields) {
+                update(contact.value.id);
+                return false;
+            },
+    })
+    ;
+});
 </script>
 
 <template>
-<template v-if="contact">
+<div v-show="contact">
 <router-link to="/" class="ui label">Back</router-link>
 <h2 class="ui header">
     <i class="pen icon"></i>
@@ -59,7 +77,7 @@ view(route.params.id);
 </h2>
 
 <div class="ui stacked very padded segment">
-    <div class="ui form">
+    <form class="ui form">
         <div class="field">
             <label for="name">Name</label>
             <input type="text" name="name" id="name" placeholder="" v-model="name">
@@ -83,10 +101,11 @@ view(route.params.id);
                 </div>
             </div>
         </div>
-    </div>
-    <button class="fluid ui button large" @click="update(contact.id);" :disabled="submitted">Submit</button>
+        <button type="submit" class="fluid ui button large" :disabled="submitted">Submit</button>
+        <div class="ui error message"></div>
+    </form>
 </div>
-</template>
+</div>
 
 <!-- <template v-if="contact">
     <router-link to="/">Back</router-link>

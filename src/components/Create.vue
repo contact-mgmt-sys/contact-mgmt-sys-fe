@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from "./../stores/store.js";
 import { useRouter } from "vue-router";
 
@@ -30,6 +30,25 @@ function create() {
         });
 }
 
+onMounted(() => {
+    $('.ui.form')
+    .form({
+            fields: {
+                name: ['empty', 'maxLength[250]'],
+                address: ['empty', 'maxLength[500]'],
+                email: ['email', 'maxLength[250]'],
+                mobile: ['integer', 'exactLength[12]'],
+            },
+            inline: false,
+            onSuccess: function() {
+                create();
+                return false;
+            }
+    })
+    ;
+    console.log($(".ui.form"));
+});
+
 </script>
 
 <template>
@@ -42,7 +61,7 @@ function create() {
 </h2>
 
 <div class="ui stacked very padded segment">
-    <div class="ui form">
+    <form class="ui form">
         <div class="field">
             <label for="name">Name</label>
             <input type="text" name="name" id="name" placeholder="" v-model="name">
@@ -66,8 +85,9 @@ function create() {
                 </div>
             </div>
         </div>
-    </div>
-    <button class="fluid ui button large" @click="create();" :disabled="submitted || !name">Submit</button>
+        <button type="submit" class="fluid ui button large" :disabled="submitted">Submit</button>
+        <div class="ui error message"></div>
+    </form>
 </div>
 
 <!-- <router-link to="/">Back</router-link>
