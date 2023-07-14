@@ -44,7 +44,7 @@ list();
 </h2>
 <div class="ui icon fluid input">
     <input type="text" placeholder="Search..." ref="isearch" @keyup.enter="search(isearch.value);">
-    <i class="inverted circular search link icon"></i>
+    <i class="inverted circular search link icon" @click="search(isearch.value);"></i>
 </div>
 <div class="ui stacked very padded segment" v-if="contacts.length > 0">
     <div class="ui ordered relaxed large selection divided list">
